@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en" class="fixed" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security4">
+<head>
+<!--	<script type="text/javascript">-->
+<!--		$( document ).ready(function() {-->
+<!--			$(".timeLabel").click( function(){-->
+<!--				$(".timeLabel").removeClass("selectedTimeLabel");-->
+<!--				$(this).addClass("selectedTimeLabel");-->
+<!--			});-->
+
+<!--			$(".unableTimeLabel").click( function(){-->
+<!--// $(".timeLabel").removeClass("selectedTimeLabel");-->
+<!--// $(this).addClass("selectedTimeLabel");-->
+<!--				alert("Obed");-->
+<!--			});-->
+<!--#6772e5-->
+
+<!--		})-->
+<!--	</script>-->
+	<th:block th:insert="layout :: head"></th:block>
+
+
+	<style type="text/css">
+
+		.header-top .align-items-center{
+			color: grey;
+		}
+
+		table th{
+			/*padding: 10px;*/
+			text-align: center;
+
+		}
+		.table100-body{
+			max-height: 300px;
+		}
+
+
+
+		.cell100{
+			width: 10% !important;
+			padding: 0px 0px !important;
+			text-align: center;
+		}
+
+		.indexColumn{
+			width: 3% !important;
+		}
+
+		.timeLabel:hover{
+			background-color: #00ad5f;
+			color: white;
+			padding :10px;
+			border-radius: 20px;
+
+		}
+		.timeLabel{
+			padding :10px;
+			border-radius: 20px;
+			display: inline-block;
+			text-align: center;
+			/*margin-left: 25%;*/
+		}
+		.cell100Header{
+			padding: 10px !important;
+			text-align: center;
+		}
+		.table100-body td{
+			padding-top: 0px;
+			padding-bottom: 0px;
+		}
+		.selectedTimeLabel{
+			background-color: #00ad5f;
+			color: white;
+			padding :10px;
+			border-radius: 20px;
+		}
+		.cell100ID{
+			text-align: center;
+		}
+		#submitTime{
+			float: right;
+			padding: 10px 50px;
+			background-color: #00ad5f;
+			color: white;
+			margin-right: 10px;
+			border-radius: 10px;
+		}
+		.m-b-110{
+			margin-bottom: 10px;
+		}
+		.wrap-table100{
+			width: 90%;
+		}
+		.unableTimeLabel{
+			background-color: orange;
+			color: white;
+		}
+		.unableTimeLabel:hover{
+			background-color: orange;
+			color: white;
+		}
+
+		.timeCell{
+			margin-left: -20px !important;
+		}
+
+		/*  ================   Timetable responsiveness and scrolling */
+		.table-master {
+			overflow-x: auto;
+		}
+
+		table.scroll {
+			/* width: 100%; */
+			/* Optional */
+			/* border-collapse: collapse; */
+			border-spacing: 0;
+		}
+
+		table.scroll tbody,
+		table.scroll thead {
+			display: block;
+		}
+
+		thead tr th {
+			height: 30px;
+			line-height: 30px;
+			/* text-align: left; */
+		}
+
+		table.scroll tbody {
+			height: 300px;
+			overflow-y: auto;
+			overflow-x: hidden;
+		}
+
+		tbody td:last-child,
+		thead th:last-child {
+			border-right: none;
+		}
+
+		::-webkit-scrollbar {
+			width: 8px;
+			height: 8px;
+		}
+
+		/* Track */
+		::-webkit-scrollbar-track {
+			box-shadow: inset 0 0 5px grey;
+			border-radius: 10px;
+		}
+
+		/* Handle */
+		::-webkit-scrollbar-thumb {
+			background: #00ad5f;
+			border-radius: 10px;
+		}
+
+		/* Handle on hover */
+		::-webkit-scrollbar-thumb:hover {
+			background: #00ad5f;
+		}
+		/*  ============================*/
+
+		#profileDropdown a{
+			 color:black !important;
+		 }
+		#profileDropdown a:hover{
+			color: #85cf00 !important;
+		}
+		#mobile-nav-toggle{
+			margin-top: -25px !important;
+		}
+
+		.facilities-area {
+			text-align: center;
+		}
+
+		.alert{
+			max-width: 100%;
+			width: 60%;
+			margin-left: 20%;
+			text-align: center;
+			display: none;
+			top: 25%;
+			position: fixed;
+			z-index: 1000;
+			padding: 20px;
+		}
+
+
+
+	</style>
+
+</head>
+	<body>
+
+		<!-- #header -->
+		<th:block th:insert="layout :: header_fragment"></th:block>
+
+		<!-- start banner Area -->
+		<th:block th:insert="layout :: main_banner_fragment"></th:block>
+		<!-- End banner Area -->
+		<div id="customSuccessMessage" class="alert alert-dismissable fade show alert-success" style="display: none;">
+			<span >Вы успешно записались на прием.</span>
+		</div>
+		<div id="customDangerMessage" class="alert alert-dismissable fade show alert-danger" style="display: none;">
+			<span >Вы уже записывались на этот день к этому врачу</span>
+		</div>
+
+		<!-- Start appointment Area -->
+		<section class="appointment-area" style="padding: 50px 0px;" >
+			<div class="container">
+				<div class="row justify-content-between align-items-center pb-120 appointment-wrap" style="margin-top: 50px;padding-bottom: 50px;">
+					<div class="col-lg-5 col-md-6 appointment-left">
+						<h1>
+							ГРАФИК РАБОТЫ
+						</h1>
+						<ul class="time-list">
+							<br/>
+							<li class="d-flex justify-content-between">
+								<span>Понедельник – Пятница </span>
+								<span>09.00 - 17.00</span>
+							</li>
+							<li class="d-flex justify-content-between">
+								<span>Суббота</span>
+								<span>09.00 - 15.00</span>
+							</li>
+							<br/>
+							<li class="d-flex justify-content-between">
+								<span>Обед</span>
+								<span>12.00 - 13.00</span>
+							</li>
+						</ul>
+					</div>
+					<div sec:authorize="hasRole('ROLE_USER')" id="queueSaveFormDiv" class="col-lg-6 col-md-6 appointment-right pt-60 pb-60" style="margin-top: 0px;border: 1px solid;padding: 30px;">
+							<h1 style="padding-bottom: 30px;">Записаться на прием</h1>
+						<div class="form-row">
+								<div class="form-group col-md-10">
+									<label for="selectDoctor">Выберите врача</label>
+									<select id="selectDoctor" class="form-control">
+										<option th:each="doctor: ${doctors}" th:value="${doctor.id}"  th:text="${doctor.getDoctorTypeString() + ' : ' + doctor.usersByDoctorId.name +' '+doctor.usersByDoctorId.surname}" ></option>
+									</select>
+								</div>
+
+							</div>
+
+							<div class="form-row">
+								<div class="form-group col-md-6">
+									<button type="button" onclick="toggleTimetableModal()" id="selectDateTime"  class="btn btn-primary">Выберите дату и время</button>
+
+									<i id="isTimeSelectedIcon" class="fa fa-check-circle" style="font-size:30px;color:limegreen; display: none;"></i>
+								</div>
+
+							</div>
+
+							<input id="queueSaveFormUserInfo" type="text" th:value="${#authentication.getPrincipal().getUsername()}" style="display:none;" >
+
+
+							<button  type="button" id="saveToQueue"   class="btn btn-primary">Отправить</button>
+
+					</div>
+					<div sec:authorize="isAnonymous()" id="" class="col-lg-6 col-md-6 appointment-right pt-60 pb-60" style="margin-top: 0px;">
+						<img class="w-100" alt="" th:src="@{images/tool.png}" style="width: 40% !important;
+    margin-left: 30%;">
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- End appointment Area -->
+
+<!--	  Date and Time modal =============================-->
+	  <div class="modal fade bd-example-modal-lg" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+			  <div class="modal-content">
+				  <div class="modal-header">
+					  <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+					  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						  <span aria-hidden="true">&times;</span>
+					  </button>
+				  </div>
+				  <div class="modal-body">
+
+<!--					Table    ===================-->
+
+					  <div class="table100 ver3 m-b-110 table-responsive" style="padding-top: 10px;">
+
+						  <div class=" table-master" style="display: block;overflow-x: auto;white-space: nowrap;padding-top: 10px;">
+							  <table class="scroll">
+								  <thead id="timetableThead">
+
+								  </thead>
+								  <tbody id="timetableTbody" >
+
+								  </tbody>
+							  </table>
+						  </div>
+						  <!--                 <button id="submitTime">Submit</button>-->
+					  </div>
+
+<!--					  ==========================-->
+
+				  </div>
+				  <div class="modal-footer">
+					  <button id="timetableModalCloseButton" type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+					  <button id="timetableModalSaveButton" type="button" class="btn btn-primary"  data-dismiss="modal">Выбрать</button>
+				  </div>
+			  </div>
+		  </div>
+	  </div>
+
+<!--	  =================================================-->
+
+<!--	  About us start -->
+	  <section style="text-align: center;background-color: rgba(34,34,34,0.9);color: white;" >
+		  <div class="section-top-border" style="width: 80%;margin: auto;">
+			  <h1 class="mb-30">О нас</h1>
+			  <div class="row">
+				  <div class="col-lg-12">
+					  <blockquote class="generic-blockquote" style="font-size: 20px;background: transparent;">
+						  Мы помогаем своим пациентам сохранить красоту восстановить и приумножить здоровье. Эту задачу мы решаем, используя самые современные и надежные медицинские технологии, опыт и квалификацию наших врачей.
+
+						  Мы опираемся в своей работе на мировые достижения в области медицины. Наши врачи постоянно повышают свою квалификацию. Мы хотим, чтобы на смену истории болезни пришли истории здоровья.
+
+						  Ведь здоровье - одна из важнейших ценностей современного мира.
+
+						  Мы несем ответственность перед пациентами за профессиональный уровень своих сотрудников, а перед сотрудниками - за обеспечение достойного уровня жизни.
+
+						  </blockquote>
+				  </div>
+			  </div>
+		  </div>
+	  </section>
+<!--	  About us ended -->
+
+		<!-- Start facilities Area -->
+		<section class="facilities-area section-gap" style="padding: 90px 0">
+			<div class="container">
+				<div class="row d-flex justify-content-center">
+					<div class="menu-content pb-70 col-lg-7">
+						<div class="title text-center">
+							<h1 class="mb-10">Почему вам стоит выбрать нас?</h1>
+						</div>
+					</div>
+				</div>
+				<div class="row servicesRow">
+					<div class="col-lg-3 col-md-6">
+						<div class="single-facilities">
+							<div > <img th:src="@{/images/professionalism.png}" style="width: 105px;"> </div>
+							<div ><a href="#"><h4>Профессионализм</h4></a></div>
+							<p>
+								У нас работают высококвалифицированные специалисты. В том числе, врачи-ультразвуковой диагностики, высшей категории, которые помогут выставить правильный диагноз.
+							</p>
+						</div>
+					</div>
+					<div class="col-lg-3 col-md-6">
+						<div class="single-facilities">
+							<div > <img th:src="@{/images/schedule.png}" style="width: 105px;"> </div>
+							<div ><a href="#"><h4>Удобный график</h4></a></div>
+							<p>
+								Попасть на консультацию к специалисту можно в удобное для Вас время. Уточните день и время по телефону, указанному на сайте.
+							</p>
+						</div>
+					</div>
+					<div class="col-lg-3 col-md-6">
+						<div class="single-facilities">
+							<div > <img th:src="@{/images/doctors.png}" style="width: 105px;"> </div>
+							<div ><a href="#"><h4>Опытные врачи</h4></a></div>
+							<p>
+								В нашей клинике работают врачи высшей категории - выпускники лучших медицинских институтов России и Кыргызстана, имеющие обширный опыт лечения пациентов со сложными диагнозами.
+							</p>
+						</div>
+					</div>
+					<div class="col-lg-3 col-md-6">
+						<div class="single-facilities">
+							<div > <img th:src="@{/images/equipment.png}" style="width: 105px;"> </div>
+							<div ><a href="#"><h4>Современное оборудование</h4></a></div>
+							<p>
+								У нас установлено самое передовое и современное оборудование для качественной диагностики и лечения.
+							</p>
+						</div>
+					</div>
+
+
+
+
+				</div>
+			</div>
+		</section>
+		<!-- End facilities Area -->
+
+
+		<!-- start footer Area -->
+		<footer class="footer-area section-gap" style="color: white;height: 90px;padding: 0px 0px;">
+		</footer>
+		<!-- End footer Area -->
+
+
+
+
+
+
+
+
+	  <script >
+		  var queue = {"doctorId":-1 , "userUsername":"" , "date":"" , "order":-1 , "time":"" };
+		  var timetable ;
+		  var doctorId ;
+		  function toggleTimetableModal() {
+			  // alert("clicked");
+			  $('#exampleModalCenter').modal('toggle');
+			  return false;
+		  }
+
+
+
+		  $( document ).ready(function() {
+
+
+
+
+			  // timetable  = [[${timetable}]];
+			  // alert(username.timeList);
+			  // console.log(timetable);
+			  // console.log(timetable[0].timeList.length);
+			  // console.log(timetable[0].dateString);
+
+			  // window.onload = fillTimetable();
+
+			  function fillTimetable() {
+				  console.log(timetable);
+
+				  $("#timetableThead .cell100Header").remove();
+				  $("#timetableTbody .row100").remove();
+
+				  console.log("fiiling timtable");
+				  // var table = document.getElementById("timetable");
+				  var theadTR = document.createElement("tr");
+				  theadTR.setAttribute("class","row100 head");
+				  document.getElementById("timetableThead").appendChild(theadTR);
+				  for(var i=0 ; i<7 ; i++){
+					  if(i==0){
+						  var th = document.createElement("th");
+						  th.setAttribute("class", "cell100 cell100Header indexColumn");
+						  th.appendChild(document.createTextNode("#"));
+					  }
+					  else {
+						  var th = document.createElement("th");
+						  th.setAttribute("class", "cell100 cell100Header dateCell");
+						  th.appendChild(document.createTextNode(timetable[i-1].dateString));
+					  }
+					  theadTR.appendChild(th);
+				  }
+				  // var tableHeader = document.getElementById("timetableThead");
+				  // tableHeader.appendChild(theadTR);
+
+				  var index=1;
+				  var tbody = document.getElementById("timetableTbody");
+				  doctorId = timetable[0].doctorId;
+				  console.log("doctorId = "+doctorId);
+				  for(var j=0 ; j<timetable[0].timeList.length ; j++){
+					  var tr = document.createElement("tr");
+					  tr.setAttribute("class","row100 body");
+					  for(var i=0 ; i<7 ; i++) {
+						  if(i==0){
+							  var td = document.createElement("td");
+							  td.setAttribute("class" , "cell100 indexColumn");
+							  td.appendChild(document.createTextNode(j+1));
+						  }
+						  else{
+							  var td = document.createElement("td");
+							  var label = document.createElement("label");
+							  if(timetable[i-1].timeList[j].status == 0) {
+								  label.setAttribute("class" , "timeLabel");
+								  label.setAttribute("data-date" , timetable[i-1].dateString);
+								  label.setAttribute("data-order" , timetable[i-1].timeList[j].order);
+								  label.setAttribute("data-doctorid" , timetable[i-1].doctorId);
+								  label.setAttribute("onclick" , "timeLabelClick(this)");
+							  }
+							  if(timetable[i-1].timeList[j].status == 1 || timetable[i-1].timeList[j].status == 3) {
+								  label.setAttribute("class", "timeLabelOrderedByUser timeLabel");
+								  label.setAttribute("style", "background-color: #f15151; color:white;");
+							  }
+							  if(timetable[i-1].timeList[j].status == 2) {
+								  label.setAttribute("class", "timeLabelOrderedByDoctor timeLabel");
+								  // label.setAttribute("data-date" , timetable[i-1].dateString);
+								  // label.setAttribute("data-order" , timetable[i-1].timeList[j].order);
+								  // label.setAttribute("data-doctorid" , timetable[i-1].doctorId);
+								  label.setAttribute("class", "timeLabelOrderedByUser timeLabel");
+								  label.setAttribute("style", "background-color: #479ea3; color:white;");
+								  // label.setAttribute("style", "background-color: #479ea3; color:white;");
+							  }
+
+							  if(timetable[i-1].timeList[j].status == 4) {
+								  label.setAttribute("class", "timeLabelLunchTime timeLabel");
+								  label.setAttribute("style", "background-color: #a0a204; color:white;");
+							  }
+
+
+							  // label.setAttribute("data-date" , timetable[i-1].dateString);
+							  // label.setAttribute("data-order" , timetable[i-1].timeList[j].order);
+							  // label.setAttribute("data-doctorid" , timetable[i-1].doctorId);
+							  // label.setAttribute("class" , "timeLabel");
+
+							  td.setAttribute("class" , "cell100 timeCell");
+							  label.appendChild(document.createTextNode(timetable[i-1].timeList[j].time));
+							  td.appendChild(label);
+						  }
+						  tr.appendChild(td);
+					  }
+					  tbody.appendChild(tr);
+				  }
+			  }
+
+			  $("#selectDoctor").on("change" , function (){
+				  sendDoctorId();
+			  });
+			  sendDoctorId();
+
+			  function sendDoctorId() {
+				  var e = document.getElementById("selectDoctor");
+				  var doctorId = e.options[e.selectedIndex].value;
+				  var doctorFullname = e.options[e.selectedIndex].text;
+
+				  $.ajax({
+					  url : 'getTimetableByDoctorId',
+					  type: 'GET',
+					  dataType: 'json',
+					  contentType: 'application/json',
+					  mimeType: 'application/json',
+					  data : ({
+						  doctorId: doctorId
+					  }),
+					  success: function (data) {
+						  // alert("success");
+
+						  timetable = data;
+
+						  console.log(timetable);
+
+						  fillTimetable();
+
+					  }
+				  });
+			  }
+
+
+			  $("#saveToQueue").on("click" , function () {
+				  saveToQueue();
+			  });
+
+
+			  function saveToQueue() {
+				  var e = document.getElementById("selectDoctor");
+				  var doctorId = e.options[e.selectedIndex].value;
+				  var doctorFullname = e.options[e.selectedIndex].text;
+				  console.log(queue["order"]);
+				  console.log(queue["time"]);
+				  if(queue["order"] !== undefined ){
+					  $.ajax({
+						  url: 'queue/save',
+						  type: 'GET',
+						  // dataType: 'json',
+						  contentType: 'application/json',
+						  // mimeType: 'application/json',
+						  data: ({
+							  doctorId: queue["doctorId"],
+							  userUsername: queue["userUsername"],
+							  time: queue["time"],
+							  date: queue["date"],
+							  order: queue["order"]
+						  }),
+						  success: function (data) {
+						  	console.log(data);
+							  window.location.hash = data;
+							  window.location.reload();
+							  // document.getElementById("logoLink").click();
+
+						  },
+						  error: function (data) {
+							  alert("ошибка при отправлении формы");
+							  // console.log("status " + data.status);
+							  // console.log("message " + data.message);
+							  // console.log("state " + data.state);
+						  }
+					  });
+				  }
+				  else{
+					  alert("Выберите время посещения");
+				  }
+			  }
+
+
+
+			  // alert(timetable);
+			  // if(timetable == null){
+			  //     fillTimetable();
+			  // }
+
+			  // function timeLabelClick(){
+			  // 	alert("sdfsdfs");
+			  //   $(".timeLabel").removeClass("selectedTimeLabel");
+			  //   $(this).addClass("selectedTimeLabel");
+			  // }
+
+			  $("#timetableModalSaveButton").click( function(){
+				  // alert(queue["order"]);
+				  if(queue["order"] != undefined){
+					  $("#isTimeSelectedIcon").css("display", "inline-block");
+				  }
+			  });
+			  $("#timetableModalCloseButton").click( function(){
+				  $("#isTimeSelectedIcon").css("display", "none");
+				  queue = {"doctorId":-1 , "userUsername":"" , "date":"" , "order":-1 , "time":"" };
+			  });
+
+		  });
+
+		  // Alert ====>
+		  document.addEventListener("DOMContentLoaded", function(event) {
+			  if(window.location.hash == "#success") {
+				  console.log("window.location.hash = "+window.location.hash);
+				  showAlert("success");
+			  }
+			  if(window.location.hash == "#danger") {
+				  console.log("window.location.hash = "+window.location.hash);
+				  showAlert("danger");
+			  }
+			  window.location.hash = '';
+		  });
+
+		  function showAlert(data){
+			  // document.location.reload();
+			  if(data == "success"){
+				  $("#customSuccessMessage").show();
+				  setTimeout(hideAlert, 2000);
+			  }
+			  if (data == "danger"){
+				  $("#customDangerMessage").show();
+				  setTimeout(hideAlert, 3000);
+			  }
+		  }
+		  function hideAlert(){
+			  $("#customSuccessMessage").hide();
+			  $("#customDangerMessage").hide();
+		  }
+		  //  <======== Alert
+
+
+		  function timeLabelClick(label){
+			  // console.log($("#queueSaveFormUserInfo").val());
+			  $(".timeLabel").removeClass("selectedTimeLabel");
+			  $(label).addClass("selectedTimeLabel");
+			  queue["time"] = $(label).text();
+			  queue["order"] = $(label).data("order");
+			  queue["date"] = $(label).data("date");
+			  queue["doctorId"] = $(label).data("doctorid");
+			  queue["userUsername"] = $("#queueSaveFormUserInfo").val();
+		  }
+
+	  </script>
+
+<!--		<script type="text/javascript">-->
+<!--			// $(document).ready(function () {-->
+<!--				if($("#customSuccessMessage").css("display") == "block"){-->
+<!--					setTimeout(hideAlert, 5000);-->
+<!--				}-->
+<!--				if($("#customDangerMessage").css("display") == "block"){-->
+<!--					setTimeout(hideAlert, 5000);-->
+<!--				}-->
+
+<!--				function hideAlert(){-->
+<!--					$("#customSuccessMessage").hide();-->
+<!--					$("#customDangerMessage").hide();-->
+<!--				}-->
+<!--			// });-->
+<!--		</script>-->
+
+	  <script>
+		  var $table = $('table.scroll'),
+				  $bodyCells = $table.find('tbody tr:first').children(),
+				  colWidth;
+
+		  // Adjust the width of thead cells when window resizes
+		  $(window).resize(function() {
+			  // Get the tbody columns width array
+			  colWidth = $bodyCells.map(function() {
+				  return $(this).width();
+			  }).get();
+
+			  // Set the width of thead columns
+			  $table.find('thead tr').children().each(function(i, v) {
+				  $(v).width(colWidth[i]);
+			  });
+		  }).resize(); // Trigger resize handler
+	  </script>
+
+
+		<th:block th:insert="layout :: footer_scripts"></th:block>
+
+	</body>
+</html>
