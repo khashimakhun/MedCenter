@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html class="fixed" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+
+	<th:block th:insert="layout :: head"></th:block>
+
+	<style>
+		.doctorsPhoto{
+			height: 282px;
+			width: 265px;
+		}
+	</style>
+</head>
+<body>
+
+
+<th:block th:insert="layout :: header_fragment"></th:block>
+<!-- #header -->
+			  
+			<!-- start banner Area -->
+			<th:block th:insert="layout :: banner_fragment"></th:block>
+			<!-- End banner Area -->	
+
+			<!-- Start team Area -->
+		    <section class="team-area section-gap" style="padding: 80px 0;">
+		        <div class="container">
+		            <div class="row d-flex justify-content-center">
+		                <div class="menu-content pb-70 col-lg-7">
+		                    <div class="title text-center">
+		                        <h1 class="mb-10">СПЕЦИАЛИСТЫ</h1>
+<!--		                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>-->
+		                    </div>
+		                </div>
+		            </div>
+		            <div class="row justify-content-center d-flex align-items-center">
+		                <div class="col-lg-3 col-md-6 single-team my-clickable-row" th:each="doctor : ${doctors}" th:data-doctorid="${doctor.id}" style="width: 285px;height: 302px;">
+		                    <div class="thumb">
+		                        <img th:if="${doctor.photo} == null" class="img-fluid doctorsPhoto" th:src="@{/images/default-doctor.jpg}"  alt="" >
+		                        <img th:if="${doctor.photo} != null" class="img-fluid doctorsPhoto" th:src="@{/uploads/photos/__${doctor.photo}__}" alt="">
+		                        <div class="align-items-end justify-content-center d-flex">
+		                            <p th:text="${doctor.getDoctorTypeString()}"></p>
+		                            <h4 th:text="${doctor.usersByDoctorId.surname +' '+doctor.usersByDoctorId.name}"></h4>
+		                        </div>
+		                    </div>
+		                </div>
+
+		            </div>
+		        </div>
+		    </section>
+		    <!-- End team Area -->				
+
+			<!-- Start feedback Area -->
+
+		    <!-- End brands Area -->
+
+			<!-- start footer Area -->
+			<th:block th:insert="layout :: footer_fragment"></th:block>
+			<!-- End footer Area -->
+
+
+<script>
+
+	$(document).ready(function(){
+		$('.my-clickable-row').on("click" , function () {
+			var doctorId = $(this).attr("data-doctorid");
+			window.location = "/guest/doctor/" +doctorId + "/profile";
+		});
+
+	});
+</script>
+
+
+			<th:block th:insert="layout :: footer_scripts"></th:block>
+		</body>
+	</html>

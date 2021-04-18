@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html class="fixed" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+	<th:block th:insert="layout :: head"></th:block>
+</head>
+<body>
+
+
+			<th:block th:insert="layout :: header_fragment"></th:block>
+			<!-- #header -->
+	  
+			<!-- start banner Area -->
+			<th:block th:insert="layout :: banner_fragment"></th:block>
+			<!-- End banner Area -->				  
+
+			<!-- Start contact-page Area -->
+
+			<section class="appointment-area contact-page-area section-gap" style="padding-bottom: 0px;">
+				<div class="container">
+					<div class="row justify-content-between align-items-center pb-120 appointment-wrap" >
+						<div class="col-lg-6 col-md-6 appointment-left">
+							<h1>
+								ГРАФИК РАБОТЫ
+							</h1>
+							<ul class="time-list">
+								<br/>
+								<li class="d-flex justify-content-between">
+									<span>Понедельник – Пятница </span>
+									<span>09.00 - 17.00</span>
+								</li>
+								<li class="d-flex justify-content-between">
+									<span>Суббота</span>
+									<span>09.00 - 15.00</span>
+								</li>
+								<br/>
+								<li class="d-flex justify-content-between">
+									<span>Обед</span>
+									<span>12.00 - 13.00</span>
+								</li>
+							</ul>
+						</div>
+			<!--			<div id="queueSaveFormDiv" class="col-lg-6 col-md-6 appointment-right pt-60 pb-60" style="margin-top: 0px;">-->
+						<div id="queueSaveFormDiv" class="col-lg-4 col-md-6 d-flex flex-column address-wrap" >
+							<div class="single-contact-address d-flex flex-row">
+								<div class="icon">
+									<span class="lnr lnr-home"></span>
+								</div>
+								<div class="contact-details">
+									<h5>г. Бишкек</h5>
+									<p>
+										Tыныстанова 2/1
+									</p>
+								</div>
+							</div>
+							<div class="single-contact-address d-flex flex-row">
+								<div class="icon">
+									<span class="lnr lnr-phone-handset"></span>
+								</div>
+								<div class="contact-details">
+									<h5>+ 996 556 55 66 55</h5>
+									<!--									<p>Mon to Fri 9am to 6 pm</p>-->
+								</div>
+							</div>
+							<div class="single-contact-address d-flex flex-row">
+								<div class="icon">
+									<span class="lnr lnr-envelope"></span>
+								</div>
+								<div class="contact-details">
+									<h5>bicard.official@gmail.com</h5>
+									<!--									<p>Send us your query anytime!</p>-->
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+<!-- End contact-page Area -->
+
+			<!-- start footer Area -->
+			<footer class="footer-area section-gap" style="color: white;height: 90px;padding: 0px 0px;">
+			</footer>
+			<!-- End footer Area -->
+
+
+			<th:block th:insert="layout :: footer_scripts"></th:block>
+		</body>
+	</html>

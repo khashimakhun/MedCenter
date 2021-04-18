@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <!-- Mobile Specific Meta -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon-->
+    <link rel="shortcut icon" th:href="@{/img/fav.png}">
+    <!-- Author Meta -->
+    <meta name="author" content="colorlib">
+    <!-- Meta Description -->
+    <meta name="description" content="">
+    <!-- Meta Keyword -->
+    <meta name="keywords" content="">
+    <!-- meta character set -->
+    <meta charset="UTF-8">
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Site Title -->
+    <title>Medical</title>
+    <th:block th:insert="layout :: head"></th:block>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/css/timetable-util.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/timetable-main.css}">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,400,300,500,600,700" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!--
+    CSS
+    ============================================= -->
+    <link rel="stylesheet" th:href="@{/css/linearicons.css}">
+    <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/css/magnific-popup.css}">
+    <link rel="stylesheet" th:href="@{/css/jquery-ui.css}">
+    <link rel="stylesheet" th:href="@{/css/nice-select.css}">
+    <link rel="stylesheet" th:href="@{/css/animate.min.css}">
+    <link rel="stylesheet" th:href="@{/css/owl.carousel.css}">
+    <link rel="stylesheet" th:href="@{/css/jquery-ui.css}">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+
+
+    <style>
+        input{
+            border: 1px solid #ced4da !important;
+        }
+        #user-profile-info{
+            width: 90%;
+            margin: auto;
+        }
+        #user-profile-info > .card{
+            padding: 10px;
+        }
+        #secondInfoCard .card-body{
+            padding: 0.25rem !important;
+        }
+
+        #user-profile-info{
+            width: 90%;
+            margin: auto;
+            padding: 20px 0px;
+        }
+        #user-profile-info > .card{
+            padding: 10px;
+        }
+        #secondInfoCard .card-body{
+            padding: 0.25rem !important;
+        }
+
+        .header-top .align-items-center{
+            color: grey;
+        }
+
+        table th{
+            /*padding: 10px;*/
+            text-align: center;
+
+        }
+        .table100-body{
+            max-height: 300px;
+        }
+
+
+
+        .cell100{
+            width: 10% !important;
+            padding: 0px 0px !important;
+            text-align: center;
+        }
+
+        .indexColumn{
+            width: 3% !important;
+        }
+
+        .timeLabel:hover{
+            background-color: #00ad5f;
+            color: white;
+            padding :10px;
+            border-radius: 20px;
+
+        }
+        .timeLabel{
+            padding :10px;
+            border-radius: 20px;
+            display: inline-block;
+            text-align: center;
+            /*margin-left: 10%;*/
+        }
+
+        @media (max-width: 900px) {
+            .timeLabel{
+                margin-left: 10%;
+            }
+        }
+
+        .cell100Header{
+            padding: 10px !important;
+            text-align: center;
+        }
+        .table100-body td{
+            padding-top: 0px;
+            padding-bottom: 0px;
+        }
+
+        .table100 {
+            padding-top:10px !important;
+        }
+
+        .cell100ID{
+            text-align: center;
+        }
+        #submitTime{
+            float: right;
+            padding: 10px 50px;
+            background-color: #00ad5f;
+            color: white;
+            margin-right: 10px;
+            border-radius: 10px;
+        }
+        .m-b-110{
+            margin-bottom: 10px;
+        }
+        .wrap-table100{
+            width: 90%;
+        }
+        .unableTimeLabel{
+            background-color: orange;
+            color: white;
+        }
+        .unableTimeLabel:hover{
+            background-color: orange;
+            color: white;
+        }
+
+        .timeCell{
+            margin-left: -20px !important;
+        }
+
+        .timeLabelOrderedByDoctor{
+            background-color: #479ea3;
+            color: white;
+        }
+        .selectedTimeLabel{
+            background-color: #00ad5f !important;
+            color: white;
+            padding :10px;
+            border-radius: 20px;
+        }
+
+        /*  ================   Timetable responsiveness and scrolling */
+        .table-master {
+            overflow-x: auto;
+        }
+
+        table.scroll {
+            /* width: 100%; */
+            /* Optional */
+            /* border-collapse: collapse; */
+            border-spacing: 0;
+        }
+
+        table.scroll tbody,
+        table.scroll thead {
+            display: block;
+        }
+
+        thead tr th {
+            height: 30px;
+            line-height: 30px;
+            /* text-align: left; */
+        }
+
+        table.scroll tbody {
+            height: 300px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        tbody td:last-child,
+        thead th:last-child {
+            border-right: none;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+            box-shadow: inset 0 0 5px grey;
+            border-radius: 10px;
+        }
+
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: #00ad5f;
+            border-radius: 10px;
+        }
+
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00ad5f;
+        }
+        /*  ============================*/
+
+    </style>
+
+
+
+    <script th:inline="javascript">
+        var queue = {"doctorId":-1 , "userUsername":"" , "date":"" , "order":-1 , "time":"" };
+        var timetable  = [[${timetable}]];
+        function toggleTimetableModal() {
+            // alert("clicked");
+            $('#exampleModalCenter').modal('toggle');
+            return false;
+        }
+
+
+
+        $( document ).ready(function() {
+
+
+
+
+            // timetable  = [[${timetable}]];
+            // alert(username.timeList);
+            // console.log(timetable);
+            // console.log(timetable[0].timeList.length);
+            // console.log(timetable[0].dateString);
+
+            // window.onload = fillTimetable();
+            fillTimetable();
+            function fillTimetable() {
+                console.log(timetable);
+
+                $("#timetableThead .cell100Header").remove();
+                $("#timetableTbody .row100").remove();
+
+                console.log("fiiling timtable");
+                // var table = document.getElementById("timetable");
+                var theadTR = document.createElement("tr");
+                theadTR.setAttribute("class","row100 head");
+                document.getElementById("timetableThead").appendChild(theadTR);
+                for(var i=0 ; i<7 ; i++){
+                    if(i==0){
+                        var th = document.createElement("th");
+                        th.setAttribute("class", "cell100 cell100Header indexColumn");
+                        th.appendChild(document.createTextNode("#"));
+                    }
+                    else {
+                        var th = document.createElement("th");
+                        th.setAttribute("class", "cell100 cell100Header dateCell");
+                        th.appendChild(document.createTextNode(timetable[i-1].dateString));
+                    }
+                    theadTR.appendChild(th);
+                }
+                // var tableHeader = document.getElementById("timetableThead");
+                // tableHeader.appendChild(theadTR);
+
+                var index=1;
+                var tbody = document.getElementById("timetableTbody");
+                for(var j=0 ; j<timetable[0].timeList.length ; j++){
+                    var tr = document.createElement("tr");
+                    tr.setAttribute("class","row100 body");
+                    for(var i=0 ; i<7 ; i++) {
+                        if(i==0){
+                            var td = document.createElement("td");
+                            td.setAttribute("class" , "cell100 indexColumn");
+                            td.appendChild(document.createTextNode(j+1));
+                        }
+                        else{
+                            var td = document.createElement("td");
+                            var label = document.createElement("label");
+                            if(timetable[i-1].timeList[j].status == 0) {
+                                label.setAttribute("class" , "timeLabel");
+                                label.setAttribute("data-date" , timetable[i-1].dateString);
+                                label.setAttribute("data-order" , timetable[i-1].timeList[j].order);
+                                label.setAttribute("data-doctorid" , timetable[i-1].doctorId);
+                                label.setAttribute("onclick" , "timeLabelClick(this)");
+                            }
+                            if(timetable[i-1].timeList[j].status == 1 || timetable[i-1].timeList[j].status == 3) {
+                                label.setAttribute("class", "timeLabelOrderedByUser timeLabel");
+                                label.setAttribute("style", "background-color: #f15151; color:white;");
+                            }
+                            if(timetable[i-1].timeList[j].status == 2) {
+                                label.setAttribute("class", "timeLabelOrderedByDoctor timeLabel");
+                                // label.setAttribute("data-date" , timetable[i-1].dateString);
+                                // label.setAttribute("data-order" , timetable[i-1].timeList[j].order);
+                                // label.setAttribute("data-doctorid" , timetable[i-1].doctorId);
+                                label.setAttribute("class", "timeLabelOrderedByUser timeLabel");
+                                label.setAttribute("style", "background-color: #479ea3; color:white;");
+                            }
+                            if(timetable[i-1].timeList[j].status == 4) {
+                                label.setAttribute("class", "timeLabelLunchTime timeLabel");
+                                label.setAttribute("style", "background-color: #a0a204; color:white;");
+                            }
+
+
+                            // label.setAttribute("data-date" , timetable[i-1].dateString);
+                            // label.setAttribute("data-order" , timetable[i-1].timeList[j].order);
+                            // label.setAttribute("data-doctorid" , timetable[i-1].doctorId);
+                            // label.setAttribute("class" , "timeLabel");
+
+                            // label.setAttribute("onclick" , "timeLabelClick(this)");
+                            td.setAttribute("class" , "cell100 timeCell");
+                            label.appendChild(document.createTextNode(timetable[i-1].timeList[j].time));
+                            td.appendChild(label);
+                        }
+                        tr.appendChild(td);
+                    }
+                    tbody.appendChild(tr);
+                }
+            }
+
+            // $("#selectDoctor").on("change" , function (){
+            //     sendDoctorId();
+            // });
+            // sendDoctorId();
+            //
+            // function sendDoctorId() {
+            //     var e = document.getElementById("selectDoctor");
+            //     var doctorId = e.options[e.selectedIndex].value;
+            //     var doctorFullname = e.options[e.selectedIndex].text;
+            //
+            //     $.ajax({
+            //         url : 'getTimetableByDoctorId',
+            //         type: 'GET',
+            //         dataType: 'json',
+            //         contentType: 'application/json',
+            //         mimeType: 'application/json',
+            //         data : ({
+            //             doctorId: doctorId
+            //         }),
+            //         success: function (data) {
+            //             // alert("success");
+            //
+            //             timetable = data;
+            //
+            //             console.log(timetable);
+            //
+            //             fillTimetable();
+            //
+            //         }
+            //     });
+            // }
+
+
+            $("#saveToQueue").on("click" , function () {
+                saveToQueue();
+            });
+
+
+            function saveToQueue() {
+                // var e = document.getElementById("selectDoctor");
+                // var doctorId = e.options[e.selectedIndex].value;
+                // var doctorFullname = e.options[e.selectedIndex].text;
+                console.log(queue["order"]);
+                console.log(queue["time"]);
+                if(queue["order"] !== undefined ){
+                    $.ajax({
+                        url: '/queue/save',
+                        type: 'GET',
+                        // dataType: 'json',
+                        contentType: 'application/json',
+                        // mimeType: 'application/json',
+                        data: ({
+                            doctorId: queue["doctorId"],
+                            time: queue["time"],
+                            date: queue["date"],
+                            order: queue["order"]
+                        }),
+                        success: function (data) {
+                            // alert("success");
+
+                             window.location = window.location.href;
+
+                            // timetable = data;
+                            //
+                            // console.log(timetable);
+                            //
+                            // fillTimetable();
+
+                        },
+                        error: function (data) {
+                            alert("ошибка при отправлении формы");
+                            // console.log("status " + data.status);
+                            // console.log("message " + data.message);
+                            // console.log("state " + data.state);
+                        }
+                    });
+                }
+                else{
+                    alert("Выберите время посещения");
+                }
+            }
+
+
+
+            // alert(timetable);
+            // if(timetable == null){
+            //     fillTimetable();
+            // }
+
+            // function timeLabelClick(){
+            // 	alert("sdfsdfs");
+            //   $(".timeLabel").removeClass("selectedTimeLabel");
+            //   $(this).addClass("selectedTimeLabel");
+            // }
+
+            $("#timetableModalSaveButton").click( function(){
+                // alert(queue["order"]);
+                saveToQueue();
+                if(queue["order"] != undefined){
+                    $("#isTimeSelectedIcon").css("display", "inline-block");
+                }
+            });
+            $("#timetableModalCloseButton").click( function(){
+                $("#isTimeSelectedIcon").css("display", "none");
+                queue = {"doctorId":-1 , "userUsername":"" , "date":"" , "order":-1 , "time":"" };
+            });
+
+        });
+
+
+        function timeLabelClick(label){
+            // console.log($("#queueSaveFormUserInfo").val());
+            $(".timeLabel").removeClass("selectedTimeLabel");
+            $(label).addClass("selectedTimeLabel");
+            queue["time"] = $(label).text();
+            queue["order"] = $(label).data("order");
+            queue["date"] = $(label).data("date");
+            queue["doctorId"] = $(label).data("doctorid");
+            queue["userUsername"] = $("#queueSaveFormUserInfo").val();
+        }
+
+    </script>
+
+
+    <script>
+        var $table = $('table.scroll'),
+            $bodyCells = $table.find('tbody tr:first').children(),
+            colWidth;
+
+        // Adjust the width of thead cells when window resizes
+        $(window).resize(function() {
+            // Get the tbody columns width array
+            colWidth = $bodyCells.map(function() {
+                return $(this).width();
+            }).get();
+
+            // Set the width of thead columns
+            $table.find('thead tr').children().each(function(i, v) {
+                $(v).width(colWidth[i]);
+            });
+        }).resize(); // Trigger resize handler
+    </script>
+
+    <style>
+        .doctorsPhoto{
+            width: 373px !important;
+            height: auto;
+            max-width: 100%;
+            max-height: 100%;
+        }
+        #profileDropdown a{
+            color:black !important;
+            padding: 1rem 1rem;
+        }
+        #profileDropdown a:hover{
+            color: #85cf00 !important;
+        }
+        #mobile-nav-toggle{
+            margin-top: 5px !important;
+        }
+    </style>
+</head>
+<body>
+
+
+<th:block th:insert="layout :: header_fragment"></th:block>
+<!-- #header -->
+
+<!-- start banner Area -->
+<th:block th:insert="layout :: banner_fragment"></th:block>
+<!-- End banner Area -->
+
+
+<div class="card" style="width: 90%;margin: auto;margin-top: 30px;margin-bottom: 30px;">
+    <div class="card-header">
+        <div class="row align-items-center">
+            <div class="col-8" th:if="${doctor} == null">
+                <h3 class="mb-0">Мой профиль</h3>
+            </div>
+            <div class="col-8" th:if="${doctor} != null">
+                <h3 class="mb-0">Профиль врача</h3>
+            </div>
+            <div class="col-4 text-right" th:if="${doctor}" style="max-width: 100%;">
+                <a type="button" onclick="toggleTimetableModal()" id="selectDateTime"  class="btn btn-sm btn-primary" style="color: white;">Записаться на прием</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body">
+
+        <div class="row">
+
+            <div class="col-8">
+<!--                <form th:action="@{/admin/save/profile}" method="post">-->
+                <form th:action="@{/user/update}" method="post" th:object="${user}">
+                    <div class="pl-lg-4">
+                        <div class="row" th:if="${canBeEdited}">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-username">Имя пользователя</label>
+                                    <input type="text" id="input-username" readonly class="form-control" placeholder="Username" th:field="${user.username}"  th:value="${user.username}">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-email">Email</label>
+                                    <input type="email" id="input-email" class="form-control" placeholder="jesse@example.com" th:field="${user.email}"  th:value="${user.email}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-first-name">Имя</label>
+                                    <input type="text" id="input-first-name" class="form-control" placeholder="First name" th:field="${user.name}"   th:value="${user.name}">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-last-name">Фамилия</label>
+                                    <input type="text" id="input-last-name" class="form-control" placeholder="Last name" th:field="${user.surname}"  th:value="${user.surname}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-first-name">ИНН</label>
+                                    <input type="text" id="input-pin" class="form-control" placeholder="First name" th:field="${user.pin}"   th:value="${user.pin}">
+                                </div>
+                            </div>
+                            <div class="col-lg-6" th:if="${canBeEdited} == false" >
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-email2">Email</label>
+                                    <input type="email" id="input-email2" class="form-control" placeholder="jesse@example.com" th:field="${user.email}"  th:value="${user.email}">
+                                </div>
+                            </div>
+                            <div class="col-lg-6" th:if="${canBeEdited} == true"  style="margin-top: 30px;">
+                                <div class="form-group">
+                                    <a th:href="@{/user/changepassword}" class="btn btn-primary">Поменять пароль</a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <hr class="my-4" />
+                    <!--                   Address-->
+                    <div class="container"  th:if="${doctor}">
+                        <h6 class="heading-small text-muted mb-4">Contact information</h6>
+                        <div class="pl-lg-4">
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="input-city">Начало работы</label>
+                                        <input type="text" id="input-city" class="form-control" placeholder="09:00:00" th:field="${doctor.startTime}"   th:value="${doctor.startTime}" >
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="input-country">Конец работы</label>
+                                        <input type="text" id="input-country" class="form-control" placeholder="17:00:00" th:field="${doctor.endTime}"   th:value="${doctor.endTime}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="input-country">Интервал</label>
+                                        <input type="number" id="input-postal-code" class="form-control" th:field="${doctor.intervalByIntervalId.interval}"   th:value="${doctor.intervalByIntervalId.interval}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="input-address">Информация</label>
+                                        <textarea id="input-address" class="form-control" placeholder="Home Address" th:field="${doctor.info}"   th:value="${doctor.info}" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="my-4" />
+                    </div>
+
+                    <input th:if="${canBeEdited}" type="submit" value="Сохранить" class="btn-success">
+                </form>
+            </div>
+
+            <div class="col-4">
+                <div th:if="${doctor} != null" class="card img-fluid" >
+                    <img th:if="${doctor.photo} == null" class="card-img-top doctorsPhoto" th:src="@{/images/default-doctor.jpg}" >
+                    <img th:if="${doctor.photo} != null" class="card-img-top doctorsPhoto" th:src="@{/uploads/photos/__${doctor.photo}__}" >
+                </div>
+                <div th:if="${doctor} == null" class="card img-fluid" >
+                    <img class="card-img-top doctorsPhoto" th:src="@{/images/default_avatar.png}" >
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+<section id="user-profile-info" style="width: 90%; margin:auto;" th:if="${doctor} == null">
+
+
+        <hr>
+
+    <div id="secondInfoCard" class="card">
+
+        <div class="card-header">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a id="infoCardNavBarHeader1" class="nav-link active" >Список посещений</a>
+                </li>
+                <li class="nav-item">
+                    <a id="infoCardNavBarHeader2" class="nav-link " >История болезни</a>
+                </li>
+            </ul>
+        </div>
+
+
+        <div id="secondInfoCardBody1" class="card-body" >
+            <div class="card" th:each="visit : ${visits}" style="margin-bottom: 5px;">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-9">
+                            <a class="collapsed card-link" data-toggle="collapse" href="#collapseThree" th:text="${visit.date+' '+ visit.startTime +' => '+visit.doctorType+':'+visit.doctorFullname}" ></a>
+                        </div>
+                        <div class="col-3" th:if="${visit.canBeCanceled}">
+<!--                        <div class="col-3" th:if="${visit.queueId}">-->
+                            <a class="card-link" role="button" th:href="@{/user/queue/__${visit.queueId}__/cancel}" >Отменить</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div id="secondInfoCardBody2" style="display: none;" class="card-body" >
+
+<!--            <div th:each="disease : ${diseases}">-->
+<!--                    <div class="card" th:id="'accordion' + ${disease.id}" >-->
+<!--                <div class="card-header"  >-->
+<!--                    <a class="collapsed card-link" data-toggle="collapse" th:href="'#collapse1' + ${disease.id}" th:text="${disease.date + ' => ' +disease.doctorName+' '+disease.doctorSurname}" th:data-parent="'#accordion'+ ${disease.id}" ></a>-->
+<!--&lt;!&ndash;                    <a sec:authorize="hasRole('ROLE_DOCTOR')" class="collapsed card-link diseaseHistoryChangeButton" data-toggle="collapse" th:href="'#collapse2' + ${disease.id}" type="btn success-btn" >Изменить</a>&ndash;&gt;-->
+<!--                    <a class="collapsed card-link diseaseHistoryChangeButton" data-toggle="collapse" th:href="'#collapse2' + ${disease.id}" th:data-parent="'#accordion'+ ${disease.id}"  type="btn success-btn" >Изменить</a>-->
+<!--                </div>-->
+<!--                <div th:id="'collapse1' + ${disease.id}" class="collapse" >-->
+<!--                    <div  class="card-body diseaseHistoryCardBody1">-->
+<!--                        <h5>Diagnos</h5>-->
+<!--                        <p th:text="${disease.diagnosis}"></p>-->
+<!--                        <h5>Recept</h5>-->
+<!--                        <p th:text="${disease.recipe}"></p>-->
+<!--                    </div>-->
+
+<!--                </div>-->
+<!--                <div th:id="'collapse2' + ${disease.id}" class="collapse" >-->
+<!--                    <div  class="card-body diseaseHistoryCardBody2" sec:authorize="hasRole('ROLE_DOCTOR')">-->
+<!--                        <form method="post" th:href="@{/}">-->
+<!--                            <div class="card-body" th:object="${diseaseToChange}">-->
+<!--                                <div class="form-group">-->
+<!--                                    <label for="email">Диагноз :</label>-->
+<!--                                    <input type="email" class="form-control"  th:field="*{diagnosis}" th:value="${disease.diagnosis}" th:text="${disease.diagnosis}">-->
+<!--                                </div>-->
+<!--                                <div class="form-group">-->
+<!--                                    <label for="email">Диагноз :</label>-->
+<!--                                    <input type="email" class="form-control"  th:field="*{recipe}" th:value="${disease.recipe}" th:text="${disease.recipe}">-->
+<!--                                </div>-->
+
+<!--                            </div>-->
+<!--                            <div class="card-footer">-->
+<!--                                <button id="diseaseHistoryCardBody2SaveButton"  type="submit" class="btn btn-success">Сохранить</button>-->
+<!--                            </div>-->
+<!--                        </form>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            </div>-->
+
+
+            <div id="accordion" >
+                <div th:each="disease : ${diseases}" th:id="'accordion' + ${disease.id}" >
+                    <div class="card" style="margin-bottom: 5px;">
+
+                        <div class="card-header">
+                            <a class=" card-link" data-toggle="collapse" th:href="'#collapseOne' + ${disease.id}"  th:text="${disease.date + ' => ' +disease.doctorName+' '+disease.doctorSurname}"></a>
+                            <a sec:authorize="hasRole('ROLE_DOCTOR')" class="collapsed card-link" data-toggle="collapse" th:href="'#collapseTwo' + ${disease.id}" >Изменить</a>
+                        </div>
+
+
+                        <div th:id="'collapseOne' + ${disease.id}" class="collapse" th:data-parent="'#accordion' + ${disease.id}"  >
+                            <div  class="card-body diseaseHistoryCardBody1">
+                                <h5>Диагноз</h5>
+                                <p th:text="${disease.diagnosis}"></p>
+                                <h5>Рецепт</h5>
+                                <p th:text="${disease.recipe}"></p>
+                                <h5 th:if="${disease.file}">Файл</h5>
+                                <a th:href="@{|/file/download?id=${disease.id}|}"  th:text="${disease.file}"></a>
+                            </div>
+                        </div>
+                        <div th:id="'collapseTwo' + ${disease.id}" class="collapse" th:data-parent="'#accordion' + ${disease.id}" sec:authorize="hasRole('ROLE_DOCTOR')">
+<!--                            <div  class="card-body diseaseHistoryCardBody2" sec:authorize="hasRole('ROLE_DOCTOR')">-->
+                            <div  class="card-body diseaseHistoryCardBody2">
+<!--                                <form method="post" th:href="@{/}" th:object="${diseaseToChange}">-->
+                                <form method="post" th:action="@{/doctor/changeDisease}" th:object="${diseaseToChange}">
+                                    <div class="card-body" >
+                                        <input type="hidden" name="id"  th:value="${disease.id}" />
+                                        <input type="hidden" name="patientId"  th:value="${disease.patientId}" />
+                                        <input type="hidden" name="doctorId"  th:value="${disease.doctorId}" />
+                                        <div class="form-group">
+                                            <label >Диагноз :</label>
+                                            <textarea type="text"  class="form-control" name="diagnosis" th:value="${disease.diagnosis}" ></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label >Рецепт :</label>
+                                            <textarea type="text" class="form-control"  name="recipe"  th:value="${disease.recipe}" ></textarea>
+                                        </div>
+
+                                    </div>
+                                    <div class="card-footer">
+                                        <button id="diseaseHistoryCardBody2SaveButton"  type="submit" class="btn btn-success">Сохранить</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+
+    </div>
+
+
+</section >
+
+
+<!--	  Date and Time modal =============================-->
+<div class="modal fade bd-example-modal-lg" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Выберите дату и время</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <!--					Table    ===================-->
+
+                <div class="table100 ver3 m-b-110 table-responsive" style="padding-top: 10px;">
+
+                    <div class=" table-master" style="display: block;overflow-x: auto;white-space: nowrap;padding-top: 10px;">
+                        <table class="scroll">
+                            <thead id="timetableThead">
+
+                            </thead>
+                            <tbody id="timetableTbody" >
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--                 <button id="submitTime">Submit</button>-->
+                </div>
+
+                <!--					  ==========================-->
+
+            </div>
+            <div class="modal-footer">
+                <button id="timetableModalCloseButton" type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                <button sec:authorize="isAuthenticated()" id="timetableModalSaveButton" type="button" class="btn btn-primary"  data-dismiss="modal">Записаться</button>
+                <a sec:authorize="isAnonymous()" th:href="@{/login}"  class="btn btn-primary"   >Записаться</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--	  =================================================-->
+
+
+
+<!-- start footer Area -->
+<footer class="footer-area section-gap" style="color: white;height: 90px;padding: 0px 0px;">
+</footer>
+<!-- End footer Area -->
+
+
+
+
+<script>
+
+
+
+    $(document).ready(function(){
+
+        $("#userInfoFormSaveButton").on("click" , function(){
+            $("#firstInfoCard2").css("display","none");
+            $("#firstInfoCard").css("display","block");
+        });
+        $("#userInfoFormCancelButton").on("click" , function(){
+            $("#firstInfoCard2").css("display","none");
+            $("#firstInfoCard").css("display","block");
+        });
+        $("#userInfoChangeButton").on("click" , function(){
+            $("#firstInfoCard").css("display","none");
+            $("#firstInfoCard2").css("display","block");
+        });
+
+        // infoCardNavBarHeader1
+
+        $("#infoCardNavBarHeader1").on("click" , function(){
+            $("#infoCardNavBarHeader2").removeClass("active");
+            $("#infoCardNavBarHeader1").addClass("active");
+            $("#secondInfoCardBody2").css("display","none");
+            $("#secondInfoCardBody1").css("display","block");
+        });
+        $("#infoCardNavBarHeader2").on("click" , function(){
+            $("#infoCardNavBarHeader1").removeClass("active");
+            $("#infoCardNavBarHeader2").addClass("active");
+            $("#secondInfoCardBody1").css("display","none");
+            $("#secondInfoCardBody2").css("display","block");
+        });
+
+
+    });
+
+</script>
+
+
+<!--<th:block th:insert="layout :: footer_scripts"></th:block>-->
+<script th:src="@{/js/vendor/jquery-2.2.4.min.js}"></script>
+<script th:src="@{/js/popper.min.js}"></script>
+<script th:src="@{/js/vendor/bootstrap.min.js}"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhOdIF3Y9382fqJYt5I_sswSrEw5eihAA"></script>
+<script th:src="@{/js/jquery-ui.js}"></script>
+<script th:src="@{/js/easing.min.js}"></script>
+<script th:src="@{/js/hoverIntent.js}"></script>
+<script th:src="@{/js/superfish.min.js}"></script>
+<script th:src="@{/js/jquery.ajaxchimp.min.js}"></script>
+<script th:src="@{/js/jquery.magnific-popup.min.js}"></script>
+<script th:src="@{/js/jquery.tabs.min.js}"></script>
+<script th:src="@{/js/jquery.nice-select.min.js}"></script>
+<script th:src="@{/js/owl.carousel.min.js}"></script>
+<script th:src="@{/js/mail-script.js}"></script>
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>
