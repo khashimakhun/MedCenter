@@ -2,16 +2,11 @@ package com.example.medcenter.service;
 
 import com.example.medcenter.entity.DoctorsFeaturesEntity;
 import com.example.medcenter.entity.QueueEntity;
-import com.example.medcenter.repoitory.*;
-import com.sun.org.apache.bcel.internal.generic.ANEWARRAY;
+import com.example.medcenter.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.OffsetDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

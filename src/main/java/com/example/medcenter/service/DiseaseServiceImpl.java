@@ -3,11 +3,10 @@ package com.example.medcenter.service;
 import com.example.medcenter.dto.DiseaseDTO;
 import com.example.medcenter.entity.DiseaseEntity;
 import com.example.medcenter.entity.DoctorsFeaturesEntity;
-import com.example.medcenter.entity.DoctorsTypeEntity;
 import com.example.medcenter.entity.UsersEntity;
-import com.example.medcenter.repoitory.DiseaseRepository;
-import com.example.medcenter.repoitory.DoctorsFeaturesRepository;
-import com.example.medcenter.repoitory.UsersRepository;
+import com.example.medcenter.repository.DiseaseRepository;
+import com.example.medcenter.repository.DoctorsFeaturesRepository;
+import com.example.medcenter.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

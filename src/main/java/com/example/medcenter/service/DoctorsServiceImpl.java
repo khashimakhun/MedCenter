@@ -5,19 +5,15 @@ import com.example.medcenter.dto.DoctorsPatientDTO;
 import com.example.medcenter.dto.TimeDTO;
 import com.example.medcenter.dto.TimetableDTO;
 import com.example.medcenter.entity.*;
-import com.example.medcenter.repoitory.*;
+import com.example.medcenter.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.sql.Time;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
 

@@ -1,28 +1,23 @@
 package com.example.medcenter.controller;
 
-import com.example.medcenter.dto.TimeDTO;
 import com.example.medcenter.dto.TimetableDTO;
 import com.example.medcenter.entity.DoctorsFeaturesEntity;
 import com.example.medcenter.entity.QueueEntity;
 import com.example.medcenter.entity.UsersEntity;
-import com.example.medcenter.repoitory.DoctorsFeaturesRepository;
-import com.example.medcenter.repoitory.QueueRepository;
-import com.example.medcenter.repoitory.UsersRepository;
+import com.example.medcenter.repository.DoctorsFeaturesRepository;
+import com.example.medcenter.repository.QueueRepository;
+import com.example.medcenter.repository.UsersRepository;
 import com.example.medcenter.service.DoctorsService;
 import com.example.medcenter.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
 
 
 @Controller

@@ -1,23 +1,18 @@
 package com.example.medcenter.controller;
 
-import com.example.medcenter.config.SecurityConfiguration;
 import com.example.medcenter.dto.DiseaseDTO;
 import com.example.medcenter.entity.DiseaseEntity;
-import com.example.medcenter.entity.QueueEntity;
 import com.example.medcenter.entity.RoleEntity;
 import com.example.medcenter.entity.UsersEntity;
-import com.example.medcenter.repoitory.DiseaseRepository;
-import com.example.medcenter.repoitory.QueueRepository;
-import com.example.medcenter.repoitory.UsersRepository;
+import com.example.medcenter.repository.DiseaseRepository;
+import com.example.medcenter.repository.QueueRepository;
+import com.example.medcenter.repository.UsersRepository;
 import com.example.medcenter.service.DiseaseService;
 import com.example.medcenter.service.UserService;
 import com.example.medcenter.service.UsersDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.data.repository.query.Param;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.FileCopyUtils;

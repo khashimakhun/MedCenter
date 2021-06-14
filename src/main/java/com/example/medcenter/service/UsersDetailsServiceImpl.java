@@ -4,8 +4,8 @@ package com.example.medcenter.service;
 import com.example.medcenter.dto.UserRegistrationDTO;
 import com.example.medcenter.entity.RoleEntity;
 import com.example.medcenter.entity.UsersEntity;
-import com.example.medcenter.repoitory.RoleRepository;
-import com.example.medcenter.repoitory.UsersRepository;
+import com.example.medcenter.repository.RoleRepository;
+import com.example.medcenter.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -16,7 +16,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class UsersDetailsServiceImpl implements UsersDetailsService {

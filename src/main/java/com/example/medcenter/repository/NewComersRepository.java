@@ -1,6 +1,5 @@
-package com.example.medcenter.repoitory;
+package com.example.medcenter.repository;
 
-import com.example.medcenter.entity.IntervalEntity;
 import com.example.medcenter.entity.NewComersEntity;
 import com.example.medcenter.entity.QueueEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -2,15 +2,13 @@ package com.example.medcenter.controller;
 
 import com.example.medcenter.dto.UserRegistrationDTO;
 import com.example.medcenter.entity.*;
-import com.example.medcenter.repoitory.*;
+import com.example.medcenter.repository.*;
 import com.example.medcenter.service.DoctorsService;
 import com.example.medcenter.service.StatService;
 import com.example.medcenter.service.UsersDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -21,7 +19,6 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 
 @Controller

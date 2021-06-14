@@ -5,9 +5,9 @@ import com.example.medcenter.entity.DoctorsFeaturesEntity;
 import com.example.medcenter.entity.DoctorsTypeEntity;
 import com.example.medcenter.entity.QueueEntity;
 import com.example.medcenter.entity.UsersEntity;
-import com.example.medcenter.repoitory.DoctorsFeaturesRepository;
-import com.example.medcenter.repoitory.QueueRepository;
-import com.example.medcenter.repoitory.UsersRepository;
+import com.example.medcenter.repository.DoctorsFeaturesRepository;
+import com.example.medcenter.repository.QueueRepository;
+import com.example.medcenter.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
